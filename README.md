@@ -1,5 +1,6 @@
 [![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 # argoverse-kitti-adapter
 A toolbox to translate [Argoverse dataset (CVPR2019)](https://www.argoverse.org/data.html) into [KITTI dataset (CVPR2012)](http://www.cvlibs.net/datasets/kitti/) format for perception/tracking tasks. 
