@@ -15,17 +15,17 @@ This toolbox is to translate Argoverse dataset from CVPR2019 into the KITTI data
 
 ## Note
 1. Frequency and Sychronization 
-In KITTI, the camera and the LIDAR are synchronized at 10Hz. However, in Argoverse, the ring cameras are running at 30Hz, while the LIDAR is running at 10Hz. To fully realize the KITTI dataset format, we match each LIDAR scan with the corresponding camera at the closest timestamp. As a result, the sensor combo in the modified KITTI version of Argoverse is still running at 10Hz. 
+- In KITTI, the camera and the LIDAR are synchronized at 10Hz. However, in Argoverse, the ring cameras are running at 30Hz, while the LIDAR is running at 10Hz. To fully realize the KITTI dataset format, we match each LIDAR scan with the corresponding camera at the closest timestamp. As a result, the sensor combo in the modified KITTI version of Argoverse is still running at 10Hz. 
 2. Multi-camera
-In KITTI dataset, each image is matched up with one LIDAR scan, one label file, and one calibration document. However, in Argoverse, seven images share one LIDAR scan, and one log only has one single label/calibration combo. Using only the ring cameras, the LIDAR file is copied 7 times to match with each image, and corresponding label/calibration files are generated as well. 
+- In KITTI dataset, each image is matched up with one LIDAR scan, one label file, and one calibration document. However, in Argoverse, seven images share one LIDAR scan, and one log only has one single label/calibration combo. Using only the ring cameras, the LIDAR file is copied 7 times to match with each image, and corresponding label/calibration files are generated as well. 
 3. Labelling File Clips 
-KITTI only labels the object in the view of the front camera, while Argoverse, given its panoramic nature, labels all the obstacles around the object. Thus, for each associated labelling file, if the object is not seen in this specific image, then it is not labelled. Furthermore, objects that are too small (beyond 50m) were not labelled. One can cetrainly change this threshold in the [configuration file].  [Here] attaches the KITTI label README file . For the Argoverse label file, please go check the [Argoverse github](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464)
+- KITTI only labels the object in the view of the front camera, while Argoverse, given its panoramic nature, labels all the obstacles around the object. Thus, for each associated labelling file, if the object is not seen in this specific image, then it is not labelled. Furthermore, objects that are too small (beyond 50m) were not labelled. One can cetrainly change this threshold in the [configuration file].  [Here] attaches the KITTI label README file . For the Argoverse label file, please go check the [Argoverse github](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464)
 4. Calibration File
-For the
+- To match the KITTI calibration file, the tool is designed to combine the 'R0_rect' matrix together with the 'P2' matrix to form intrinsic matrix 'K' of the  camera. In the new label file, 'R0_rect' is set to be an identity matrix, while 'P2' contains all the intrinsics. 
 
 ## How to use? 
 ### 1. Download Data
-Please download the most recent [argoverse dataset](https://www.argoverse.org/data.html). Once the data is downloaded, it is convenient to put all the training logs under one training folder. Please do not change any contents under the individual log folder. Here is a document tree as an illustration:
+- Please download the most recent [argoverse dataset](https://www.argoverse.org/data.html). Once the data is downloaded, it is convenient to put all the training logs under one training folder. Please do not change any contents under the individual log folder. Here is a document tree as an illustration:
 ```
 argodataset
 └── argoverse-tracking <----------------------------root_dir
@@ -41,11 +41,11 @@ argodataset
         └──...
 ```
 ### 2. Download Argoverse Repo
-To use the toolbox, please follow the instructions in the [argoverse github repository](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464) to install the corrsponding python API. 
+- To use the toolbox, please follow the instructions in the [argoverse github repository](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464) to install the corrsponding python API. 
 
 ### 3. Clone the Argoverse-kitti-adapter Repo
 '''git clone https://github.com/yzhou377/argoverse-kitti-adapter.git'''
-Once the data and the API are well equipped, please open the configuration file for changing your root_dir (the directory to your argoverse-tracking folder). The toolbox will automatically construct a new folder (train_kitti) for you. The new file structure is shown as below: 
+- Once the data and the API are well equipped, please open the configuration file for changing your root_dir (the directory to your argoverse-tracking folder). The toolbox will automatically construct a new folder (train_kitti) for you. The new file structure is shown as below: 
 
 ```
 argodataset
@@ -64,12 +64,12 @@ argodataset
 ```
 
 ### 4. Change Hyperparameters
-On the top of the adapter.py file, please change the root directory and the distance threshold. 
+- On the top of the adapter.py file, please change the root directory and the distance threshold. 
 
 ### 5. Run the Adapter
-After changing the configruation file, please run the adapter.py file using the following commands
+- After changing the configruation file, please run the adapter.py file using the following commands
 """python adapter.py"""
 
 ## Reference 
-[1] Chang et al., Argoverse: 3D Tracking and Forecasting with Rich Maps, CVPR2019, Long Beach, U.S.A
-[2] A. Geiger et al., Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite, CVPR2012, Rhode Island, U.S.A
+- [1] Chang et al., Argoverse: 3D Tracking and Forecasting with Rich Maps, CVPR2019, Long Beach, U.S.A
+- [2] A. Geiger et al., Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite, CVPR2012, Rhode Island, U.S.A
