@@ -4,8 +4,8 @@
 # argoverse-kitti-adapter
 A toolbox to translate [Argoverse dataset (CVPR2019)](https://www.argoverse.org/data.html) into [KITTI dataset](http://www.cvlibs.net/datasets/kitti/) format for perception/tracking tasks. 
 
--Author: Yiyang Zhou 
--Contact: yiyang.zhou@berkeley.edu 
+ - Author: Yiyang Zhou 
+ - Contact: yiyang.zhou@berkeley.edu 
 
 ## Introduction 
 This toolbox is to translate Argoverse dataset from CVPR2019 into the KITTI dataset format. The major changes are:
@@ -50,7 +50,6 @@ argodataset
         └──label_2
         └──velodyne_reduced <-----------------------empty folder
     └── ...
-
 ```
 
 ### 4. Change Hyperparameters
