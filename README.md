@@ -71,5 +71,5 @@ argodataset
 - To match the KITTI calibration file, the tool is designed to combine the 'R0_rect' matrix together with the 'P2' matrix to form intrinsic matrix 'K' of the  camera. In the new label file, 'R0_rect' is set to be an identity matrix, while 'P2' contains all the intrinsics. 
 
 ## Reference 
-- [1] Chang et al., Argoverse: 3D Tracking and Forecasting with Rich Maps, CVPR2019, Long Beach, U.S.A
+- [1] M. Chang et al., Argoverse: 3D Tracking and Forecasting with Rich Maps, CVPR2019, Long Beach, U.S.A
 - [2] A. Geiger et al., Are we ready for Autonomous Driving? The KITTI Vision Benchmark Suite, CVPR2012, Rhode Island, U.S.A
