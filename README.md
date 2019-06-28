@@ -2,7 +2,7 @@
 [![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
 
 # argoverse-kitti-adapter
-A toolbox to translate [Argoverse dataset (CVPR2019)](https://www.argoverse.org/data.html) into [KITTI dataset](http://www.cvlibs.net/datasets/kitti/) format for perception/tracking tasks. 
+A toolbox to translate [Argoverse dataset (CVPR2019)](https://www.argoverse.org/data.html) into [KITTI dataset (CVPR2012)](http://www.cvlibs.net/datasets/kitti/) format for perception/tracking tasks. 
 
  - Author: Yiyang Zhou 
  - Contact: yiyang.zhou@berkeley.edu 
@@ -35,7 +35,7 @@ argodataset
 
 ### 3. Clone the Argoverse-kitti-adapter Repo
 '''git clone https://github.com/yzhou377/argoverse-kitti-adapter.git'''
-- Once the data and the API are well equipped, please open the configuration file for changing your root_dir (the directory to your argoverse-tracking folder). The toolbox will automatically construct a new folder (train_kitti) for you. The new file structure is shown as below: 
+- Once the data and the API are well equipped, please open the 'apater.py' file for changing your root_dir (the directory to your argoverse-tracking folder). The toolbox will automatically construct a new folder (train_kitti) for you. The new file structure is shown as below: 
 
 ```
 argodataset
@@ -65,7 +65,7 @@ argodataset
 2. Multi-camera
 - In KITTI dataset, each image is matched up with one LIDAR scan, one label file, and one calibration document. However, in Argoverse, seven images share one LIDAR scan, and one log only has one single label/calibration combo. Using only the ring cameras, the LIDAR file is copied 7 times to match with each image, and corresponding label/calibration files are generated as well. 
 3. Labelling File Clips 
-- KITTI only labels the object in the view of the front camera, while Argoverse, given its panoramic nature, labels all the obstacles around the object. Thus, for each associated labelling file, if the object is not seen in this specific image, then it is not labelled. Furthermore, objects that are too small (beyond 50m) were not labelled. One can cetrainly change this threshold in the [configuration file].  [Here] attaches the KITTI label README file . For the Argoverse label file, please go check the [Argoverse github](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464)
+- KITTI only labels the object in the view of the front camera, while Argoverse, given its panoramic nature, labels all the obstacles around the object. Thus, for each associated labelling file, if the object is not seen in this specific image, then it is not labelled. Furthermore, objects that are too small (beyond 50m) were not labelled. One can cetrainly change this threshold in the ['apater.py'](https://github.com/yzhou377/argoverse-kitti-adapter/blob/master/adapter.py).  [Here](https://github.com/yzhou377/argoverse-kitti-adapter/blob/master/supplementals/KITTI_README) attaches the KITTI label README file . For the Argoverse label file, please go check the [Argoverse github](https://github.com/argoai/argoverse-api/tree/16dec1ba51479a24b14d935e7873b26bfd1a7464)
 4. Calibration File
 - To match the KITTI calibration file, the tool is designed to combine the 'R0_rect' matrix together with the 'P2' matrix to form intrinsic matrix 'K' of the  camera. In the new label file, 'R0_rect' is set to be an identity matrix, while 'P2' contains all the intrinsics. 
 
