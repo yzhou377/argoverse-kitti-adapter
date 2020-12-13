@@ -12,6 +12,7 @@ print('\nLoading files...')
 import argoverse
 from argoverse.data_loading.argoverse_tracking_loader import ArgoverseTrackingLoader
 import os
+#os.sys.path.remove('/opt/ros/kinetic/lib/python2.7/dist-packages/')
 from shutil import copyfile
 from argoverse.utils import calibration
 import json
@@ -21,7 +22,6 @@ from argoverse.utils.cv2_plotting_utils import draw_clipped_line_segment
 from argoverse.utils.se3 import SE3
 from argoverse.utils.transform import quat2rotmat
 import math
-import os
 from typing import Union
 import numpy as np
 import pyntcloud
@@ -48,7 +48,7 @@ argodataset
 
 ####CONFIGURATION#################################################
 # Root directory
-root_dir= '/media/msc/8TB/car/argodataset/argoverse-tracking/'
+root_dir= '/media/msc/377445e5-f724-4791-861c-730d2b0bba3f/argoverse-tracking/'
 
 # Maximum thresholding distance for labelled objects
 # (Object beyond this distance will not be labelled)
@@ -73,8 +73,8 @@ def load_ply(ply_fpath: _PathLike) -> np.ndarray:
 
 # Setup the root directory 
 
-data_dir=  root_dir+'train_test/'
-goal_dir= root_dir+'train_test_kitti/'
+data_dir=  root_dir+'sample/'
+goal_dir= root_dir+'sample_kitti/'
 if not os.path.exists(goal_dir):
     os.mkdir(goal_dir)
     os.mkdir(goal_dir+'velodyne')
@@ -208,7 +208,7 @@ for log_id in argoverse_loader.log_list:
                     angle= math.atan2(dz,dx)
                     beta= math.atan2(center_cam_frame[0][2],center_cam_frame[0][0])
                     alpha= angle + beta - math.pi/2
-                    line=classes+ ' {} {} {} {} {} {} {} {} {} {} {} {} {} {} \n'.format(round(truncated,2),occulusion,round(alpha,2),round(image_bbox[0],2),round(image_bbox[1],2),round(image_bbox[2],2),round(image_bbox[3],2),round(height,2), round(width,2),round(length,2), round(center_cam_frame[0][0],2),round(center_cam_frame[0][1],2),round(center_cam_frame[0][2],2),round(angle,2))                
+                    line=classes+ ' {} {} {} {} {} {} {} {} {} {} {} {} {} {} \n'.format(round(truncated,2),occulusion,round(alpha,2),round(image_bbox[0],2),round(image_bbox[1],2),round(image_bbox[2],2),round(image_bbox[3],2),round(height,2), round(width,2),round(length,2), round(center_cam_frame[0][0],2),round(center_cam_frame[0][1],2),round(center_cam_frame[0][2],2)-0.5*round(height,2),round(angle,2))                
 
                     file.write(line)
             file.close()
