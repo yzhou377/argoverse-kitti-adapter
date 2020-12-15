@@ -9,6 +9,9 @@
 
 print('\nLoading files...')
 
+from pyquaternion import Quaternion
+from scipy.spatial.transform import Rotation as R
+
 import argoverse
 from argoverse.data_loading.argoverse_tracking_loader import ArgoverseTrackingLoader
 import os
@@ -89,6 +92,7 @@ print('\nTotal number of logs:',len(argoverse_loader))
 argoverse_loader.print_all()
 print('\n')
 
+
 cams=['ring_front_center',
  'ring_front_left',
  'ring_front_right',
@@ -96,6 +100,9 @@ cams=['ring_front_center',
  'ring_rear_right',
  'ring_side_left',
  'ring_side_right']
+
+
+#cams=['ring_front_center']
 
 
 
@@ -121,13 +128,18 @@ for log_id in argoverse_loader.log_list:
     for cam in cams:
         # Recreate the calibration file content 
         calibration_data=calibration.load_calib(data_dir+log_id+'/vehicle_calibration_info.json')[cam]
+        extrinsic= calibration_data.extrinsic
+        ext_rot= R.from_matrix(extrinsic[0:3,0:3].T)
+        trans=  -(extrinsic[0:3,3]).reshape(3,1)
+        extrinsic_kitti= np.hstack((extrinsic[0:3,0:3],-trans))
+        #print(extrinsic)
         L3='P2: '
         for j in calibration_data.K.reshape(1,12)[0]:
             L3= L3+ str(j)+ ' '
         L3=L3[:-1]
 
         L6= 'Tr_velo_to_cam: '
-        for k in calibration_data.extrinsic.reshape(1,16)[0][0:12]:
+        for k in extrinsic_kitti.reshape(1,12)[0][0:12]:
             L6= L6+ str(k)+ ' '
         L6=L6[:-1]
 
@@ -175,6 +187,7 @@ for log_id in argoverse_loader.log_list:
             l+=1
 
             for detected_object in label_object_list:
+                quat= Quar = R.from_quat(detected_object.quaternion)
                 classes= detected_object.label_class
                 occulusion= round(detected_object.occlusion/25)
                 height= detected_object.height
@@ -205,9 +218,13 @@ for log_id in argoverse_loader.log_list:
                     dz=p1[2]-p5[2]
                     dx=p1[0]-p5[0]
                     # the orientation angle of the car
-                    angle= math.atan2(dz,dx)
+
+                    angle= ext_rot * quat
+                    angle=angle.as_euler('zyx')[1]
+
+                    angle = (angle + np.pi) % (2 * np.pi) - np.pi 
                     beta= math.atan2(center_cam_frame[0][2],center_cam_frame[0][0])
-                    alpha= angle + beta - math.pi/2
+                    alpha= (angle-beta + np.pi) % (2 * np.pi) - np.pi 
                     line=classes+ ' {} {} {} {} {} {} {} {} {} {} {} {} {} {} \n'.format(round(truncated,2),occulusion,round(alpha,2),round(image_bbox[0],2),round(image_bbox[1],2),round(image_bbox[2],2),round(image_bbox[3],2),round(height,2), round(width,2),round(length,2), round(center_cam_frame[0][0],2),round(center_cam_frame[0][1],2),round(center_cam_frame[0][2],2)-0.5*round(height,2),round(angle,2))                
 
                     file.write(line)
